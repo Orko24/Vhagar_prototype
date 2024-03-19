@@ -9,6 +9,6 @@ The project summary is as follows:
 * This Github repository is to show I have immediate machine learning engineering skills.
 * This is an on-going project with the complexity rising as more development time can be contributed to this project.
 * The ultimate goal of this project is to produce an general platform data insight analysis tool to generate buy and sell signals for securities focusing on nano-float securities. 
-* T
+* The app should be designed in PyQT.
 
 </p>
