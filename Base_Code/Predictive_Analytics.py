@@ -1,5 +1,7 @@
-from vhagar_public.Base_Code.Base_API import *
-from vhagar_public.Base_Code.Technical_analysis import *
+from vhagar_private.Base_Code.Base_API import *
+from vhagar_private.Base_Code.Technical_analysis import *
+from vhagar_private.Base_Code.Data_cleaner import *
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,30 +11,12 @@ from keras.models import Sequential
 from keras.layers import LSTM
 from keras.layers import Dropout
 from keras.layers import Dense
+import seaborn as sns
 
-class LTSM_training_data(object):
 
-    def __init__(self, stock_data):
-
-        '''
-        Designed to be used with Indicators_data class object
-        However if you have stock data in pandas format with the columns:
-
-        Index(['index', '1. open', '2. high', '3. low', '4. close',
-       '5. adjusted close', '6. volume', '7. dividend amount',
-       '8. split coefficient', 'average price'],
-        dtype='object')
-
-        please feel free to use it
-        '''
-
-        self.stock_data = stock_data
-        self.training_set_open = self.stock_data[['1. open']].values
-        self.training_set_high = self.stock_data[['2. high']].values
-        self.training_set_low = self.stock_data[['3. low']].values
-        self.training_set_close = self.stock_data[['4. close']].values
-        self.training_set_avg_price = self.stock_data[['average price']].values
-
+'''
+Proof of Concept
+'''
 class model_generation_optimized(object):
 
     def __init__(self, training_data, testing_data, timestamp = 25):
@@ -45,11 +29,15 @@ class model_generation_optimized(object):
         :param timestamp: (time stamp for data iterations)
         '''
 
+        '''MODFIY FUNCTION SO IT TAKES PANDAS DATA FRAME AS INPUT AND DISTILLS IT INTO REQUIRED 
+        TRAINING SETS SO ALGO DEVELOPMENT IS STREAMLINED
+        '''
+
         self.training_data = training_data
         self.testing_data = testing_data
         self.timestamp = timestamp
 
-    def prediction(self):
+    def sequential_prediction(self):
 
         '''
         generate model than do the prediction
@@ -91,8 +79,8 @@ class model_generation_optimized(object):
         model.fit(X_train, y_train, epochs=100, batch_size=32)
 
 
-        training_data_1_D = self.training_data.reshape(1,-1)[0]
-        testing_data_1_D = self.testing_data.reshape(1,-1)[0]
+        # training_data_1_D = self.training_data.reshape(1,-1)[0]
+        # testing_data_1_D = self.testing_data.reshape(1,-1)[0]
         training_data_name = "Training Data"
         testing_data_name = "Testing Data"
 
@@ -115,64 +103,88 @@ class model_generation_optimized(object):
 
         return predicted_data_result
 
-    def prediction_charts(self):
+    def sequential_prediction_dataframe(self):
 
-        prediction = self.prediction()
+        prediction = self.sequential_prediction()
         training_data = self.training_data
 
+        def format_array(training_data, array):
 
-        def char_format(prediction, training_data):
+            n = len(training_data) - len(array)
+            resultant_array = np.array((n * [np.nan]) + list(array))
+            return resultant_array
 
-            prediction_shape = prediction.shape
-            training_data_shape = training_data.shape
+        data = [prediction, training_data]
+        first_array_terms = list(map(lambda x: array_process(array = x).array_first_term(), data))
+        prediction_data, training_data_modified = first_array_terms[0], first_array_terms[1]
+        formatted_arrays = [format_array(training_data = training_data_modified, array = x) for x in first_array_terms]
+        formated_array_names = ['Prediction', 'Training Data']
 
-            print(prediction_shape)
-            print(training_data_shape)
-
-            print(prediction)
-            print(training_data)
-
-            print(prediction.reshape(1,-1))
-            print(training_data.reshape(1,-1))
-
-            print(prediction.reshape(1, -1)[0].shape)
-            print(training_data.reshape(1, -1)[0].shape)
+        pandas_data = dict(zip(formated_array_names, formatted_arrays))
+        prediction_dataframe = pd.DataFrame.from_dict(pandas_data)
 
 
-            return
-
-        char_format(prediction, training_data)
-
-        return
+        return prediction_dataframe
 
 
-class data_visualization(object):
+class dataframe_visualation(object):
 
-    def __init__(self, training_data, testing_data,
-                 testing_data_color = 'black', training_data_color = "green",
-                 training_data_name = "Training Data", testing_data_name = "Testing Data",
-                 plot_title = "Data Prediction Visualization", xlabel = "X axis",
-                 ylabel = "Y axis"):
+    def __init__(self, dataframe):
 
-        self.training_data = training_data
-        self.testing_data = testing_data
-        self.testing_data_color = testing_data_color
-        self.training_data_name = training_data_name
-        self.training_data_color = training_data_color
-        self.testing_data_name = testing_data_name
-        self.plot_title = plot_title
-        self.xlabel = xlabel
-        self.ylabel = ylabel
+        self.dataframe = dataframe
+        self.colname = list(self.dataframe.columns.values)
+        self.index = self.dataframe.index
 
-    def plot(self):
-        plt.plot(self.testing_data, color=self.testing_data, label= self.testing_data_name)
-        plt.plot(self.training_data, color= self.training_data_color, label= self.training_data_name)
-        plt.title(self.plot_title)
-        plt.xlabel(self.xlabel)
-        plt.ylabel(self.ylabel)
-        plt.legend()
+    def dataframe_plot(self):
+
+        self.dataframe.plot(figsize = (12,12))
         plt.show()
 
         return
+
+    # def plot(self):
+    #
+    #     plt.figure(figsize=(14,5))
+    #     sns.set_theme(style="darkgrid")
+    #
+    #     for name in self.colname:
+    #         sns.lineplot(data=self.dataframe, x=self.index, y= name)
+    #         sns.despine()
+    #
+    #
+    #
+    #     return
+
+
+
+
+# class data_visualization(object):
+#
+#     def __init__(self, training_data, testing_data,
+#                  testing_data_color = 'black', training_data_color = "green",
+#                  training_data_name = "Training Data", testing_data_name = "Testing Data",
+#                  plot_title = "Data Prediction Visualization", xlabel = "X axis",
+#                  ylabel = "Y axis"):
+#
+#         self.training_data = training_data
+#         self.testing_data = testing_data
+#         self.testing_data_color = testing_data_color
+#         self.training_data_name = training_data_name
+#         self.training_data_color = training_data_color
+#         self.testing_data_name = testing_data_name
+#         self.plot_title = plot_title
+#         self.xlabel = xlabel
+#         self.ylabel = ylabel
+#
+#     def plot(self):
+#         plt.plot(self.testing_data, color=self.testing_data, label= self.testing_data_name)
+#         plt.plot(self.training_data, color= self.training_data_color, label= self.training_data_name)
+#         plt.title(self.plot_title)
+#         plt.xlabel(self.xlabel)
+#         plt.ylabel(self.ylabel)
+#         plt.legend()
+#         plt.show()
+#
+#         return
 
 

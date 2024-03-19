@@ -1,0 +1,21 @@
+To do list:
+
+1. Build up the rectified linear circuit.
+2. Save the pre-trained models
+3. Build out a system to access pre-trained models in case you want to save memory.
+4. Build out a data visualization system or just the usual one to display the data.
+
+--------------------------------> Apply for jobs here
+
+5. Extend the model... to a linear regression fit for pricing adding standard noise.
+6. Use the model to predict the prices and tag it on to the predicted prices.
+7. Use your indicators to generate buy and sell signals with the newly generated data set.
+8. This concludes the technical thing.
+
+------------------------------------------------
+
+9. Workout a sentiment prediction system and make a similar scoring system.
+
+-------------------------------------------------
+
+10. Figure out a stock scanning system

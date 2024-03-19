@@ -60,7 +60,7 @@ class price_data_json_intraday(object):
 
 class price_data_pandas(object):
 
-    def __init__(self, stock_symbol, api_key = 'WP1ERVVZOQQIWUCJ'):
+    def __init__(self, stock_symbol, api_key = 'WP1ERVVZOQQIWUCJ', outputsize='full'):
 
         '''
         https://github.com/RomelTorres/alpha_vantage/blob/develop/alpha_vantage/timeseries.py
@@ -71,19 +71,20 @@ class price_data_pandas(object):
         self.api_key = api_key
         self.stock_symbol = stock_symbol
         self.ts_pandas = TimeSeries(key = self.api_key, output_format='pandas', indexing_type='integer')
+        self.outputsize = outputsize
 
     def daily_stock_data(self):
 
-        data, meta_data = self.ts_pandas.get_daily(self.stock_symbol)
+        data, meta_data = self.ts_pandas.get_daily(symbol = self.stock_symbol, outputsize= self.outputsize)
         return data, meta_data
 
     def intra_day(self, interval = "60min"):
-        data, meta_data = self.ts_pandas.get_intraday(symbol=self.stock_symbol, interval=interval, outputsize='full')
+        data, meta_data = self.ts_pandas.get_intraday(symbol=self.stock_symbol, interval=interval, outputsize= self.outputsize)
         return data, meta_data
 
     def adjusted_data(self):
 
-        data, meta_data = self.ts_pandas.get_daily_adjusted(symbol=self.stock_symbol)
+        data, meta_data = self.ts_pandas.get_daily_adjusted(symbol=self.stock_symbol, outputsize= self.outputsize)
         return data, meta_data
 
 

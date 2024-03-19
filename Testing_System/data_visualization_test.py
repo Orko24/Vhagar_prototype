@@ -1,9 +1,9 @@
+import matplotlib.pyplot as plt
 from vhagar_private.Base_Code.Base_API import *
 from vhagar_private.Base_Code.Technical_analysis import *
 from vhagar_private.Base_Code.Predictive_Analytics import *
 
-def testing_machine_learning():
-
+def testing_data_vis():
     '''
 
     Build out a testing system for the machine learning thing
@@ -12,8 +12,9 @@ def testing_machine_learning():
 
     stock = 'GOOG'
     api_key = 'INSERT_API_KEY'
+    outputsize = 'full'
 
-    Stock_data_class = Stock_data(stock_symbol=stock, api_key=api_key)
+    Stock_data_class = Stock_data(stock_symbol=stock, api_key=api_key, outputsize= outputsize)
 
     stock_data = Stock_data_class.data_set()
     stock_meta_data = Stock_data_class.metadata
@@ -25,37 +26,59 @@ def testing_machine_learning():
 
     '''
     Algo is as follows:
-    
+
     1) Get the training data
     2) Get the testing data
-    
+
     Note try to use linear regression or a polynomial fit to produce future testing data and use 
     the machine learning model to optimize future prices, run indicator code to get buy/sell signal
     '''
+
 
     '''error in training data, use LTSM_training_data to generate training data from stock data'''
     training_data = LTSM_training_data(stock_data = stock_data).training_set_close
     testing_data = LTSM_training_data(stock_data = stock_data).training_set_close
 
     sequential_model = model_generation_optimized(training_data = training_data, testing_data= testing_data,
-                                                  timestamp = 99)
+                                                  timestamp = len(training_data) - 1)
 
     '''
     visualized data
     '''
+    print(" ")
+    print(" ")
+    print("------------------------")
 
-    chart_data = sequential_model.prediction_dataframe()
+    print(stock_data)
+    print(" ")
+    print(" ")
+    print("------------------------")
 
-    print(chart_data)
+    print(training_data)
+    print(len(training_data))
 
-    plot_function = dataframe_visualation(dataframe = chart_data)
-    plot_function.plot()
+    print(" ")
+    print(" ")
+    print("------------------------")
+
+    print(" ")
+    print(" ")
+    print("------------------------")
+
+    print(testing_data)
+    print(len(testing_data))
+
+    print(" ")
+    print(" ")
+    print("------------------------")
+
+    chart_data = sequential_model.sequential_prediction_dataframe()
+
+    dataframe_visualation(chart_data).dataframe_plot()
 
 
     return
 
 
-
-
 if __name__ == "__main__":
-    testing_machine_learning()
+    testing_data_vis()

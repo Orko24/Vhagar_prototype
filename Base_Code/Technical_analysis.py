@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from vhagar_public.Base_Code.Base_API import *
+from vhagar_private.Base_Code.Base_API import *
 import matplotlib.pyplot as plt
 import numpy, pandas
 
@@ -24,15 +24,22 @@ https://www.kaggle.com/code/lusfernandotorres/data-science-for-financial-markets
 
 class Stock_data(object):
 
-    def __init__(self, stock_symbol, api_key = 'WP1ERVVZOQQIWUCJ'):
+    def __init__(self, stock_symbol, api_key = 'WP1ERVVZOQQIWUCJ', outputsize='full'):
 
         '''
         Just utilize pandas for now, no need to overcomplicate the code using Json
         '''
 
+        '''
+        output format = "full" add that in 
+        '''
+
         self.stock_symbol = stock_symbol
         self.api_key = api_key
-        self.pandas_price_data = price_data_pandas(self.stock_symbol, api_key = self.api_key)
+        self.outputsize = outputsize
+
+        self.pandas_price_data = price_data_pandas(self.stock_symbol, api_key = self.api_key,
+                                                   outputsize= self.outputsize)
 
         self.price_data_intraday, self.metadata = self.pandas_price_data.adjusted_data()
 
