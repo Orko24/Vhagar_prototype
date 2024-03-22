@@ -1,5 +1,10 @@
-from vhagar_private.Base_Code.Base_API import *
-from vhagar_private.Base_Code.Technical_analysis import *
+from vhagar_public.Base_Code.Base_API import *
+from vhagar_public.Base_Code.Technical_analysis import *
+import pandas as pd
+import numpy as np
+import matplotlib as plt
+import seaborn as sns
+
 
 class array_process(object):
 
@@ -41,3 +46,16 @@ class LTSM_training_data(object):
         self.training_set_low = self.stock_data[['3. low']].values
         self.training_set_close = self.stock_data[['4. close']].values
         self.training_set_avg_price = self.stock_data[['average price']].values
+
+class pandas_formatter(object):
+
+    def __init__(self, dataframe):
+
+        self.dataframe = dataframe
+
+    def index_modification(self, modificaiton_amount = 1):
+
+        self.dataframe.index += modificaiton_amount
+        return self.dataframe
+
+

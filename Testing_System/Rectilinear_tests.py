@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
-from vhagar_private.Base_Code.Base_API import *
-from vhagar_private.Base_Code.Technical_analysis import *
-from vhagar_private.Base_Code.Predictive_Analytics import *
-from vhagar_private.Base_Code.Advanced_Predictive_Analytics import *
-from vhagar_private.Base_Code.Data_cleaner import *
+from vhagar_public.Base_Code.Base_API import *
+from vhagar_public.Base_Code.Technical_analysis import *
+from vhagar_public.Base_Code.Predictive_Analytics import *
+from vhagar_public.Base_Code.Advanced_Predictive_Analytics import *
+from vhagar_public.Base_Code.Data_cleaner import *
 
 
 def testing_rectilinear():
@@ -37,13 +37,14 @@ def testing_rectilinear():
     training_data_rectified = rectified_data_object.train_data
     testing_data_rectified = rectified_data_object.test_data
 
-    '''
-    tak on X num np.nan values later
-    '''
+    pred_data_frame = rectified_data_object.predictions_data_frame()
+    timeframe = rectified_data_object.timestamp
 
-    print(training_data_rectified)
+    print(pred_data_frame)
+    print(timeframe)
+
     print(testing_data_rectified)
-
+    print(training_data_rectified)
 
 
     return
