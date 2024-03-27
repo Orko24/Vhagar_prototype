@@ -15,9 +15,6 @@
 
 ## The following are some samples that demonstrate the machine learning capabilities of the vhagar project.
 
-
-## The following are some samples that demonstrate the machine learning capabilities of the vhagar project.
-
 <p align="center">
 
 **The graphs demonstrated the original prices and predicted prices of the following securities using the Advanced Predictive Analytics API in the Base Code package.**
