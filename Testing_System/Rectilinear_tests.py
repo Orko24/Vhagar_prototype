@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
+import pandas as pd
+
 from vhagar_public.Base_Code.Base_API import *
 from vhagar_public.Base_Code.Technical_analysis import *
 from vhagar_public.Base_Code.Predictive_Analytics import *
 from vhagar_public.Base_Code.Advanced_Predictive_Analytics import *
 from vhagar_public.Base_Code.Data_cleaner import *
-
+from vhagar_public.Base_Code.python_sql_postgress import *
 
 def testing_rectilinear():
     '''
@@ -14,7 +16,7 @@ def testing_rectilinear():
     '''
 
     stock = 'GOOG'
-    api_key = 'INSERT_API_KEY'
+    api_key = 'N88J2EN2MD3E978B'
     outputsize = 'full'
 
     Stock_data_class = Stock_data(stock_symbol=stock, api_key=api_key, outputsize=outputsize)
@@ -30,24 +32,44 @@ def testing_rectilinear():
     print(stock_data)
 
     training_data = LTSM_training_data(stock_data=stock_data).training_set_close
+    rectified_data_object = rectified_predictions(dataset= training_data,
+                                                  train_test_split= 0.80,
+                                                  timestamp= 100, model_name= "keras_3", epochs = 10)
 
-    rectified_data_object = rectified_predictions(dataset= training_data, train_test_split= 0.80)
-    # print(training_data[:70], len(training_data), len(training_data[:70]))
+    predictions_data_frame, testing_dataframe = rectified_data_object.predictions_refined()
 
-    training_data_rectified = rectified_data_object.train_data
-    testing_data_rectified = rectified_data_object.test_data
 
-    pred_data_frame = rectified_data_object.predictions_data_frame()
-    timeframe = rectified_data_object.timestamp
 
-    print(pred_data_frame)
-    print(timeframe)
 
-    print(testing_data_rectified)
-    print(training_data_rectified)
+
+    print(predictions_data_frame)
+    print(" ")
+    print(" ")
+    print(testing_dataframe)
+    '''
+    try to get the training data out as well to keep everything consistent
+    '''
+
+    machine_set_data = LTSM_data.training_set_close
+
+    data_split_object = data_split(dataframe=machine_set_data)
+    train_data = data_split_object.train_data
+    test_data = data_split_object.test_data
+
+    customized_relu_object = customized_rectified_predictions(training_data=train_data, testing_data=train_data,
+                                                              model_name="keras_4", testing_data_timeframe=250,
+                                                              epochs=10)
+
+    predictions_test_dataframe, training_data_frame = customized_relu_object.predictions_refined()
+
+    print(predictions_test_dataframe)
+    print(training_data_frame)
+
+
 
 
     return
 
 if __name__ == "__main__":
+
     testing_rectilinear()

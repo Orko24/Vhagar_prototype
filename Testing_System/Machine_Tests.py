@@ -1,6 +1,6 @@
-from vhagar_private.Base_Code.Base_API import *
-from vhagar_private.Base_Code.Technical_analysis import *
-from vhagar_private.Base_Code.Predictive_Analytics import *
+from vhagar_public.Base_Code.Base_API import *
+from vhagar_public.Base_Code.Technical_analysis import *
+from vhagar_public.Base_Code.Predictive_Analytics import *
 
 def testing_machine_learning():
 
@@ -11,7 +11,7 @@ def testing_machine_learning():
     '''
 
     stock = 'GOOG'
-    api_key = 'INSERT_API_KEY'
+    api_key = 'N88J2EN2MD3E978B'
 
     Stock_data_class = Stock_data(stock_symbol=stock, api_key=api_key)
 

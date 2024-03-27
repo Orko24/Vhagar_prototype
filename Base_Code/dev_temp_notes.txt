@@ -1,0 +1,19 @@
+3/25/2024----notes
+
+produce the y_train,y_test,y_prediction arrays,
+
+turn them into y_test,y_prediction_dataframes,
+modify the index
+pd.concat /join the newly modified index
+
+test out via data visualization,
+
+if theres issues then use postgress and azure data studio to check it
+
+---------------------------
+
+modfications to try
+
+make seperate classes to input training so the model parameters stay the same and the model trained and tested
+
+according to customizable data

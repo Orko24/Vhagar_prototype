@@ -23,6 +23,22 @@ class array_process(object):
         reshape = self.reshape()
         return reshape[0]
 
+class data_split(object):
+
+    def __init__(self, dataframe, split = 0.80):
+
+        self.dataframe = dataframe
+        self.split = split
+
+
+        self.train_data = pd.DataFrame(self.dataframe[0:int(len(self.dataframe) * self.split)])
+
+        self.test_data = pd.DataFrame(self.dataframe[int(len(self.dataframe) * self.split):
+                                                   int(len(self.dataframe))])
+
+        self.train_data_shape = self.train_data.shape
+        self.test_data_shape = self.test_data.shape
+
 
 class LTSM_training_data(object):
 
@@ -47,15 +63,79 @@ class LTSM_training_data(object):
         self.training_set_close = self.stock_data[['4. close']].values
         self.training_set_avg_price = self.stock_data[['average price']].values
 
+class numpy_pandas_convertor(object):
+    '''
+    converts numpy arrays to pandas columns and dataframes
+    '''
+
+    def __init__(self,arr, name = "Data"):
+
+        self.arr = arr
+        self.modified_array = self.arr.reshape(1,-1)[0]
+        self.name = name
+
+    def pandas_convertor(self):
+
+        return pd.DataFrame(dict(zip([self.name], [self.modified_array])), dtype="object")
+
+
 class pandas_formatter(object):
 
     def __init__(self, dataframe):
 
-        self.dataframe = dataframe
+        '''
+        https://pandas.pydata.org/docs/user_guide/merging.html
+        :param dataframe:
+        '''
+
+        self.dataframe = dataframe.copy()
 
     def index_modification(self, modificaiton_amount = 1):
 
         self.dataframe.index += modificaiton_amount
+
+        return self.dataframe
+    def index_modification_nan(self, modificaiton_amount = 1):
+
+        self.dataframe.index += modificaiton_amount
+
+        '''
+        add 0 indexes above this to gain
+        '''
+
+        zero_arr = np.array([0] * modificaiton_amount)
+        nan_arr = np.array([np.nan] * modificaiton_amount)
+
+        corrective_values = dict(zip(list(self.dataframe.columns), [nan_arr, nan_arr]))
+        corrective_idx = pd.DataFrame(corrective_values)
+        self.dataframe = pd.concat([corrective_idx,self.dataframe], axis= 0)
+
         return self.dataframe
 
 
+class dataframe_join(object):
+
+    def __init__(self, dataframes=[]):
+        self.dataframes = dataframes
+
+    def join_index(self):
+
+        new_df = pd.concat(self.dataframes)
+        return new_df
+
+    # def value_insertion_merge(self, dataframe = None):
+    #     '''
+    #
+    #     :param dataframe: insert dataframe values to be inserted into the colummns
+    #     :return:
+    #     '''
+    #
+    #     if dataframe == None:
+    #
+    #         return self.index_modification(modificaiton_amount=0)
+    #
+    #     dataframe_vals = dataframe.values()
+    #
+    #     print(dataframe_vals)
+    #
+    #     return

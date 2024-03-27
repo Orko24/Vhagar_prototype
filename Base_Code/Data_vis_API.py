@@ -5,9 +5,11 @@ import seaborn as sns
 
 class dataframe_visualation(object):
 
-    def __init__(self, dataframe):
+    def __init__(self, dataframe, stock_name = None, save_location = None):
 
         self.dataframe = dataframe
+        self.save_location = save_location
+        self.stock_name = "The plot for the {} stock price".format(stock_name)
         self.colname = list(self.dataframe.columns.values)
         self.index = self.dataframe.index
 
@@ -15,12 +17,45 @@ class dataframe_visualation(object):
 
         '''
         https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html
-
+        https://pandas.pydata.org/docs/dev/reference/api/pandas.DataFrame.plot.line.html
+        https://stackoverflow.com/questions/54842391/plotting-two-dataframe-columns-with-different-colors-in-python
         :return:
         '''
         # sns.set_theme(style="darkgrid")
-        self.dataframe.plot(figsize = (12,12), style = "darkgrid", legend = True)
-        plt.show()
+        ax = self.dataframe.plot(figsize = (12,12), legend = True, use_index = True, title = self.stock_name,
+                            xlabel = "Stock Index", ylabel = "Stock Price", color=['green', 'red'])
+
+        # save plot to a location in the drive
+        # print(self.save_location)
+
+        plt.savefig(self.save_location)
+        # plt.show()
+
+        return
+
+    def dataframe_dic(self):
+
+        dataframe_dict = self.dataframe.to_dict()
+
+        col_name = list(dataframe_dict.keys())
+        y_values = list(dataframe_dict.values())
+        x_values = list(self.dataframe.index)
+
+        graph_vals = dict(zip(col_name, (np.array(x_values), np.array(y_values))))
+
+
+        print(graph_vals)
+
+        return graph_vals
+
+    def detail_plot(self):
+
+        '''
+        complete later for very specific pieces that produce detailed graphs
+
+        :return:
+        '''
+        graph_vals = self.dataframe_dic()
 
         return
 
@@ -69,3 +104,27 @@ class dataframe_visualation(object):
 #         plt.show()
 #
 #         return
+
+
+# '''-------------------------------------------------'''
+        #
+        # print(y_pred)
+        #
+        # print(" ")
+        # print(" ")
+        # print(" -------------------------------- ")
+        #
+        # print(y_test)
+        #
+        # print(" ")
+        # print(" ")
+        # print(" -------------------------------- ")
+        #
+        # plt.figure(figsize=(12, 6))
+        # plt.plot(y_test, 'b', label="Original Price")
+        # plt.plot(y_pred, 'r', label="Predicted Price")
+        # plt.xlabel('Time')
+        # plt.ylabel('Price')
+        # plt.legend()
+        # plt.grid(True)
+        # plt.show()

@@ -12,3 +12,6 @@
 * The app should be designed and implemented in PyQT.
 
 </p>
+
+## The following are some samples that demonstrate the machine learning capabilities of the vhagar project.
+
