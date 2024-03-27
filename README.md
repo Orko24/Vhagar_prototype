@@ -15,3 +15,39 @@
 
 ## The following are some samples that demonstrate the machine learning capabilities of the vhagar project.
 
+
+## The following are some samples that demonstrate the machine learning capabilities of the vhagar project.
+
+<p align="center">
+
+**The graphs demonstrated the original prices and predicted prices of the following securities using the Advanced Predictive Analytics API in the Base Code package.**
+
+
+* Apple Stock prediction and original testing data:
+
+![Image Alt text](/Testing_System/generated_data/vhagar_graphs/production_graphs/AAPL.jpg "Apple Stock prediction model")
+
+* AMD Stock prediction and original testing data:
+
+![Image Alt text](/Testing_System/generated_data/vhagar_graphs/production_graphs/AMD.jpg "AMD Stock prediction model")
+
+* Google Stock prediction and original testing data:
+
+![Image Alt text](/Testing_System/generated_data/vhagar_graphs/production_graphs/GOOG.jpg "Google Stock prediction model")
+
+* IBM Stock prediction and original testing data:
+
+![Image Alt text](/Testing_System/generated_data/vhagar_graphs/production_graphs/IBM.jpg "IBM Stock prediction model")
+
+
+* Microsoft Stock prediction and original testing data:
+
+![Image Alt text](/Testing_System/generated_data/vhagar_graphs/production_graphs/MSFT.jpg "Microsoft Stock prediction model")
+
+
+* Nividia Stock prediction and original testing data:
+
+![Image Alt text](/Testing_System/generated_data/vhagar_graphs/production_graphs/NVDA.jpg "Nivida Stock prediction model")
+
+
+</p>
